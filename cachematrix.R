@@ -3,12 +3,6 @@
 ##
 ## Assumes the matrix is invertible
 ##
-## How to use:
-## 	- pass a matrix to createCacheMatrix
-## 	- call cacheSolve on the returned object to get the inverse of the matrix
-
-## Assumes the matrix is invertible
-##
 ## How to use: to cache the inverse of a matrix m
 ##  - pass m to createCacheMatrix
 ## 	- call cacheSolve on the returned object to get the inverse of m
