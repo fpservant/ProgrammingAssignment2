@@ -85,7 +85,7 @@ makeCacheObject <- function(x, fun) {
        getResult = getResult)
 }
 
-## a testthat shows 
+## a test that shows 
 ## how it works and that we get some expected results
 testCache <- function() {
   # identity matrix
@@ -115,5 +115,22 @@ testCache <- function() {
   fromCache <- cm1$lastResultHRetrievedFromCache()
   if (!fromCache) error("Unexpected!")
   else print("Result has been retrieved from cache")
+  
+  # change mat1
+  print("changing mat1")
+  mat1 <- rbind(c(2, 0), c(0, 2))
+  # we must change it inside cm1
+  cm1$set(mat1)
+  # compute the inverse of mat1
+  inv1 <- cacheSolve(cm1)
+  # inv1 %*% mat1 should be the identity
+  ok <- all(e == inv1 %*% mat1)
+  if (!ok) error("inv1 %*% mat1 should be the identity")
+  else print("inv1 %*% mat1 is the identity matrix")
+ 
+  fromCache <- cm1$lastResultHRetrievedFromCache()
+  if (fromCache) error("Unexpected!")
+  else print("Result has been computed")
+  
 }
 
