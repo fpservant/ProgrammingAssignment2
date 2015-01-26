@@ -10,6 +10,9 @@
 ## then, it is returned from the cache)
 ## Note that if you change m, cacheSolve will still return the inverse of the "initial m"
 ## (call set to reset the cache)
+##
+## Could actually be used to cache the result of another fucntion (not only solve(matrix))
+## see makeCacheObject
 
 
 ## Create a special "matrix" object that can cache its inverse
@@ -28,8 +31,10 @@ cacheSolve <- function(x, ...) {
 }
 
 ## Create a special object than can cache the value returned by a function fun that takes x as parameter
-## Call $getResult() to get the result (either computing it, or getting it from the cache)
-## Call $set to change the object we're caching bout, and $setFun to change the function whose result is cached
+## If mco is the result of a call to this function:
+## - call mco$getResult() to get the result (either computing it, or getting it from the cache)
+## - call mco$set to change the object we're caching about, 
+## - or call mco$setFun to change the function whose result is cached
 makeCacheObject <- function(x, fun) {
   # init the cache
   # This is important to have the "<<-" work the way we want it to:
@@ -61,10 +66,13 @@ makeCacheObject <- function(x, fun) {
   # return the result 
   getResult <- function(...) {
     if(!is.null(cache)) {
-      message("getting cached data")
+      # cache is here, return it
+      # message("getting cached data")
       lastResultGotFromCache <<- TRUE      
       return(cache)
     }
+    # not computed yet
+    # well, compute the result of fun, store it in cache and return it
     lastResultGotFromCache <<- FALSE      
     cache <<- fun(x, ...)
   }
